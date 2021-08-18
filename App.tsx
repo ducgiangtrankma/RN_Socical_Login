@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {images} from './src/assets';
 import {
@@ -17,6 +18,10 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {
+  AppleButton,
+  appleAuth,
+} from '@invertase/react-native-apple-authentication';
 interface AppProps {}
 const App: FC<AppProps> = ({}) => {
   const [isFBLogin, setIsFBLogin] = useState<boolean>(false);
@@ -92,12 +97,48 @@ const App: FC<AppProps> = ({}) => {
     }
   }, []);
 
+  //Đăng xuất google
   const ggLogout = useCallback(async () => {
     try {
       await GoogleSignin.signOut();
       setIsGGLogin(false);
     } catch (error) {
       console.error(error);
+    }
+  }, []);
+
+  //Đăng nhập Apple
+  const appleLogin = useCallback(async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      console.log('appleAuthRequestResponse', appleAuthRequestResponse);
+
+      // fetchAndUpdateCredentialState(updateCredentialStateForUser).catch(error =>
+      //   updateCredentialStateForUser(`Error: ${error.code}`),
+      // );
+
+      // if (identityToken) {
+      //   // e.g. sign in with Firebase Auth using `nonce` & `identityToken`
+      //   console.log(nonce, identityToken);
+      // } else {
+      //   // no token - failed sign-in?
+      // }
+
+      // if (realUserStatus === appleAuth.UserStatus.LIKELY_REAL) {
+      //   console.log("I'm a real person!");
+      // }
+
+      // console.warn(`Apple Authentication Completed, ${user}, ${email}`);
+    } catch (error) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        console.warn('User canceled Apple Sign in.');
+      } else {
+        console.error(error);
+      }
     }
   }, []);
   return (
@@ -124,6 +165,17 @@ const App: FC<AppProps> = ({}) => {
           {isGGLogin ? 'Đăng xuất' : 'Đăng nhập'}
         </Text>
       </TouchableOpacity>
+      {Platform.OS === 'ios' && (
+        <AppleButton
+          buttonStyle={AppleButton.Style.WHITE}
+          buttonType={AppleButton.Type.SIGN_IN}
+          style={{
+            width: 160, // You must specify a width
+            height: 45, // You must specify a height
+          }}
+          onPress={appleLogin}
+        />
+      )}
     </SafeAreaView>
   );
 };
