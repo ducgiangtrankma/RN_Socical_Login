@@ -13,9 +13,15 @@ import {
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk-next';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 interface AppProps {}
 const App: FC<AppProps> = ({}) => {
   const [isFBLogin, setIsFBLogin] = useState<boolean>(false);
+  const [isGGLogin, setIsGGLogin] = useState<boolean>(false);
+
   const [imgUrl, setImgUrl] = useState<string>();
 
   //Đăng xuất
@@ -67,8 +73,32 @@ const App: FC<AppProps> = ({}) => {
   }, [getInfoFromToken]);
 
   //Đăng nhập google
-  const ggLogin = useCallback(() => {
-    console.log('Fb');
+  const ggLogin = useCallback(async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('Info', userInfo);
+      setIsGGLogin(true);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  }, []);
+
+  const ggLogout = useCallback(async () => {
+    try {
+      await GoogleSignin.signOut();
+      setIsGGLogin(false);
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
   return (
     <SafeAreaView style={styles.container}>
@@ -85,9 +115,14 @@ const App: FC<AppProps> = ({}) => {
           {isFBLogin ? 'Đăng xuất' : 'Đăng nhập'}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.Btn} onPress={ggLogin}>
+      <TouchableOpacity
+        style={styles.Btn}
+        onPress={isGGLogin ? ggLogout : ggLogin}>
         <Image defaultSource={images.google} source={images.google} />
-        <Text style={styles.contentBtn}>Google login</Text>
+        <Text style={styles.contentBtn}>
+          {' '}
+          {isGGLogin ? 'Đăng xuất' : 'Đăng nhập'}
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
