@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "411307440390",
+    "project_id": "sociallogin-323302",
+    "storage_bucket": "sociallogin-323302.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411307440390:android:907a2d642ef07dd4c20687",
+        "android_client_info": {
+          "package_name": "com.rn_social_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411307440390-l1pnntin9rpdohncshbbv14io3i57rgk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rn_social_login",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "411307440390-4h6av13g650c7covnkpd787kud5b66i1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnSSOL_Bnpmq51RVGcEvFHyHuZeu7d9xE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411307440390-4h6av13g650c7covnkpd787kud5b66i1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "411307440390-2ua361eagq2th9rdnhm8auu2m6oesjo2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sociallogin.actvn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
