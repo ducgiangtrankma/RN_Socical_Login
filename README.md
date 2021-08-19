@@ -17,4 +17,8 @@
 ### Note: Go to firebase console create project. After add application IOS and Android
 - IOS: download file GoogleService-Info.plist and add to project -> add URL Types and copy value REVERSED_CLIENT_ID in GoogleService-Info.plist paste to URL Schemes
 - Android: download file google-service.json add add to project (android/app)
-
+# Apple login:
+## Using: https://github.com/invertase/react-native-apple-authentication
+### Install: yarn add @invertase/react-native-apple-authentication
+### Config flow document https://github.com/invertase/react-native-apple-authentication
+### Note: Require apple develop account and add Sign in with apple in Signing & Capabilities in xcode 
